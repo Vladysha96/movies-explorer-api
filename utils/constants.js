@@ -4,6 +4,8 @@ const allowedCors = [
   'http://localhost:3000',
   'https://vladysha96.movies.nomoredomains.club',
   'http://vladysha96.movies.nomoredomains.club',
+  'https://api.vladysha96.movies.nomoredomains.club',
+  'http://api.vladysha96.movies.nomoredomains.club',
 ];
 const MONGO_URL = 'mongodb://127.0.0.1:27017/moviesdb';
 const CAST_ERROR = 'CastError';

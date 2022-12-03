@@ -60,7 +60,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === CAST_ERROR) {
-        return next(new BadRequestError('Не корректный _id фильма. '));
+        return next(new BadRequestError('Некорректный _id фильма. '));
       }
 
       return next(err);

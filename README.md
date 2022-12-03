@@ -10,3 +10,4 @@ ___
 
 * IP 51.250.107.41
 * Backend https://api.vladysha96.movies.nomoredomains.club
+* Ссылка на pull-requests https://github.com/Vladysha96/movies-explorer-api/pull/1

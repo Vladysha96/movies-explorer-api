@@ -1,42 +1,42 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
-const routes = require('./routes');
-const errorsHandler = require('./middlewares/errorsHandler');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-const rateLimit = require('./middlewares/rateLimit');
-const { MONGO_URL } = require('./utils/constants');
+const { limiter } = require('./src/middlewares/rateLimit');
+const { routes } = require('./src/routes');
+const { errorHandler } = require('./src/middlewares/errorsHandler');
+const {
+  requestLogger,
+  errorLogger,
+  consoleLogger,
+} = require('./src/middlewares/logger');
+const { MONGO_URL } = require('./config');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
-
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
 
-mongoose.connect(MONGO_URL, {
-  useNewUrlParser: true,
-});
+mongoose
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    autoIndex: true,
+  })
+  .then(() => console.log(`Connected to ${MONGO_URL}`))
+  .catch((err) => {
+    throw new Error(err.message);
+  });
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
-
+app.use(consoleLogger);
 app.use(requestLogger);
+app.use(limiter);
 app.use(helmet());
-app.use(rateLimit);
+app.use(cors());
 app.use(routes);
 app.use(errorLogger);
 app.use(errors());
-app.use(errorsHandler);
-
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+app.use(errorHandler);
+app.listen(PORT);
+console.log(`Server listen on ${PORT}`);

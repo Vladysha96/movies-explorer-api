@@ -1,7 +1,7 @@
 const MONGO_DB_CODE = 11000;
 const REGEXP_URL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 const allowedCors = [
-  'localhost:3000',
+  'http://localhost:3000',
   'https://vladysha96.movies.nomoredomains.club',
   'http://vladysha96.movies.nomoredomains.club',
 ];
